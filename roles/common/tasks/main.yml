@@ -1,0 +1,6 @@
+---
+# TASKS FILE FOR: roles/common
+
+# - include: hostname.yml
+# - include: features.yml
+- include: ntp.yml

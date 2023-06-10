@@ -1,0 +1,35 @@
+---
+# ENABLE NXOS FEATURES
+
+- name: Gather Configured Features
+  cisco.nxos.nxos_command:
+    commands: show run | include feature
+  register: nxos_features
+  when: features is defined and ansible_network_os == 'nxos'
+
+# - name: Print Configured Features
+#   ansible.builtin.debug:
+#     msg: "{{ nxos_features }}"
+
+- name: Rendering list of features
+  set_fact:
+    configured_features: "{{ (nxos_features.stdout[0] | replace('feature ','')).split() }}"
+  when: features is defined and ansible_network_os == 'nxos'
+
+# - name: Print rendered features
+#   ansible.builtin.debug:
+#     msg: "{{ configured_features }}"
+
+- name: Enable Features
+  cisco.nxos.nxos_feature:
+    feature: "{{ item }}"
+    state: enabled
+  loop: "{{ features }}"
+  when: features is defined and ansible_network_os == 'nxos'
+
+- name: Delete Orphaned Features
+  cisco.nxos.nxos_feature:
+    feature: "{{ item }}"
+    state: disabled
+  loop: "{{ configured_features }}"
+  when: features is defined and ansible_network_os == 'nxos' and item not in features

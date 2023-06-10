@@ -1,0 +1,13 @@
+---
+# VAR FILE FOR GROUP: leaf
+
+features:
+  - lacp
+  - interface-vlan
+  - vpc
+
+# vlans:
+#   - name: default
+#     vlan_id: 1
+#   - name: Servers
+#     vlan_id: 101

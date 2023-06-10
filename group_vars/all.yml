@@ -1,0 +1,23 @@
+---
+# VAR FILE FOR GOUP: all
+
+vlans:
+  # NOTE: apply_to_groups can also include an individual hostname as defined in inventory.yml
+  - name: default # VLAN 1 must be defined or Ansible will keep trying to delete it (and never succeed)
+    vlan_id: 1
+    apply_to_groups: [all]
+  - name: FW-Transit
+    vlan_id: 99
+    apply_to_groups: [core]
+  - name: Servers
+    vlan_id: 101
+    apply_to_groups: [core, leaf]
+  - name: vMotion
+    vlan_id: 102
+    apply_to_groups: [core, leaf]
+
+ntp_source_interface: mgmt0
+ntp_servers:
+  - server: 10.0.0.1
+    prefer: True
+  - server: 10.0.0.2

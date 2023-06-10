@@ -1,0 +1,19 @@
+---
+# TASKS FILE FOR: roles/vlans
+
+- name: Generate VLAN Database Payload
+  ansible.builtin.set_fact:
+    nxos_vlans: "{{ lookup('template', 'vlans.j2') }}"
+
+# - name: Print VLAN Payload
+#   ansible.builtin.debug:
+#     msg:
+#       - "Host: {{ inventory_hostname }}"
+#       - "VLANs:"
+#       - "{{ nxos_vlans.split('\n') }}"
+#       - "{{ group_names + [ inventory_hostname ] + [ 'all' ] }}"
+
+- name: Configure VLAN Database
+  cisco.nxos.nxos_vlans:
+    config: "{{ nxos_vlans | from_yaml }}"
+    state: overridden

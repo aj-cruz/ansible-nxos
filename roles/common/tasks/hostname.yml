@@ -1,0 +1,8 @@
+---
+# SET DEVICE HOSTNAME
+
+- name: Set Hostname
+  cisco.nxos.nxos_hostname:
+    config:
+      hostname: "{{ inventory_hostname }}"
+    state: overridden

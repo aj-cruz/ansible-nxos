@@ -1,0 +1,15 @@
+---
+all:
+  vars: # GLOBAL VARIABLES
+    ansible_user: admin
+    ansible_password: admin
+    ansible_network_os: nxos
+  children:
+    core:
+      hosts:
+        CORE-1:
+          ansible_host: 192.168.253.101
+    leaf:
+      hosts:
+        LEAF-1:
+          ansible_host: 192.168.253.102

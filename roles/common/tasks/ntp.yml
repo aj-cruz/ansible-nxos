@@ -1,0 +1,28 @@
+---
+# CONFIGURE NTP SERVERS
+
+- name: Generate NTP Payload
+  ansible.builtin.set_fact:
+    nxos_ntp: "{{ lookup('template', 'ntp.j2') }}"
+
+- name: Print NTP Payload
+  ansible.builtin.debug:
+    msg: "{{ nxos_ntp.split('\n') }}"
+
+# - name: Configure NTP
+#   cisco.nxos.nxos_ntp_global:
+#     config: "{{ nxos_ntp | from_yaml }}"
+#     state: overridden
+
+- name: Configure NTP
+  cisco.nxos.nxos_ntp_global:
+    config:
+      servers:
+        - server: 10.0.0.1
+          vrf: default
+          prefer: yes
+        - server: 10.0.0.2
+          vrf: default
+          prefer: no
+      source_interface: "{{ ntp_source_interface }}"
+    state: overridden

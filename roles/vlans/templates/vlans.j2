@@ -1,0 +1,5 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{% for vlan in vlans if (group_names + [ inventory_hostname ] + [ 'all' ]) | intersect(vlan.apply_to_groups) %}
+- name: {{ vlan.name }}
+  vlan_id: {{ vlan.vlan_id }}
+{% endfor %}

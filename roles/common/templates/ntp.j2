@@ -1,0 +1,8 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+servers:
+    {% for server in ntp_servers %}
+    - server: {{ server.server }}
+      vrf: {{ server.vrf | default('default') }}
+      prefer: {{ server.prefer| default('False') }}
+    {% endfor %}
+source_interface: {{ ntp_source_interface | default('mgmt0') }}

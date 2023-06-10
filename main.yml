@@ -1,0 +1,13 @@
+---
+# MAIN PLAYBOOK
+
+- name: Configure NXOS Switches
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+  collections:
+    - cisco.nxos
+
+  roles:
+    - role: common # Basic configurations like hostnames, features, ntp, etc
+    # - role: vlans
