@@ -51,7 +51,6 @@ The directory structure follows Ansible best practices documented here: [Ansible
 |    └── vlans/                     # The vlan role is for configuring the vlan database (vlan ID & Name). Same directory structure as common
 ├── inventory.yml                   # The Ansible inventory file that defines device connectivity, group heirarchy, and devices
 ├── ansible.cfg                     # The Ansible configuration file (you can delete this if you will be using configuration from /etc/ansible/ansible.cfg)
-├── inventory.yml                   # The Ansible inventory file that defines device connectivity, group heirarchy, and devices
 └── main.yml                        # The Master Ansible Playbook. It scopes the hosts to run on and calls all the roles to perform the tasks of those roles
 </pre>
 
