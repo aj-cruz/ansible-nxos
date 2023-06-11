@@ -21,3 +21,27 @@ ntp_servers:
   - server: 10.0.0.1
     prefer: True
   - server: 10.0.0.2
+
+motd_banner: |-
+  ************************************
+          MY MOTD BANNER
+  ************************************
+
+exec_banner: |-
+  **************************************
+    YOU ARE LOGGING INTO [HOSTNAME]
+              BE NICE!!!
+  **************************************
+
+clock_configuration:
+  timezone_id: CST
+  summer_timezone_id: CDT
+  offset_hours: -6
+  offset_minutes: 0
+
+enable_domain_lookup: no
+device_domain_name: ajlab.local
+dns_vrf: default
+name_servers:
+  - 10.0.0.1
+  - 10.0.0.2

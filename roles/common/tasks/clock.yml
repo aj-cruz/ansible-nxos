@@ -1,0 +1,12 @@
+---
+# NXOS CLOCK SETTINGS
+
+- name: Generate Clock Settings Payload
+  ansible.builtin.set_fact:
+    nxos_clock: "{{ lookup('template', 'clock.j2') }}"
+  when: clock_configuration is defined
+
+- name: Configure Clock Settings
+  cisco.nxos.nxos_config:
+    lines: "{{ nxos_clock | from_yaml }}"
+  when: clock_configuration is defined

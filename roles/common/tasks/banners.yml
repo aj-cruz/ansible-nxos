@@ -1,0 +1,26 @@
+---
+# CONFIGURE NXOS BANNERS
+
+- name: Configure MOTD Banner
+  cisco.nxos.nxos_banner:
+    banner: motd
+    text: "{{ motd_banner }}"
+  when: motd_banner is defined
+
+- name: Remove MOTD Banner if banner exists in switch config and not defined in Ansible vars
+  cisco.nxos.nxos_banner:
+    banner: motd
+    state: absent
+  when: motd_banner is not defined
+
+- name: Configure EXEC Banner
+  cisco.nxos.nxos_banner:
+    banner: exec
+    text: "{{ exec_banner | replace('[HOSTNAME]', inventory_hostname) }}"
+  when: exec_banner is defined
+
+- name: Remove EXEC Banner if banner exists in switch config and not defined in Ansible vars
+  cisco.nxos.nxos_banner:
+    banner: exec
+    state: absent
+  when: exec_banner is not defined

@@ -1,0 +1,3 @@
+{% if name_servers is defined and name_servers %}
+- ip name-server {% for server in name_servers %}{{ server }} {% endfor %}{% if dns_vrf == 'default' %}{% else %}use-vrf {{ dns_vrf }}{% endif %}
+{% endif %}

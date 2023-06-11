@@ -1,0 +1,6 @@
+{% if enable_domain_lookup %}
+- ip domain-lookup
+{% endif %}
+{% if device_domain_name is defined and device_domain_name %}
+- ip domain-name {{ device_domain_name }}
+{% endif %}

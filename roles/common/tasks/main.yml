@@ -1,6 +1,9 @@
 ---
 # TASKS FILE FOR: roles/common
 
-# - include: hostname.yml
-# - include: features.yml
-- include: ntp.yml
+# - include_tasks: hostname.yml
+# - include_tasks: features.yml
+# - include_tasks: ntp.yml
+# - include_tasks: banners.yml
+# - include_tasks: clock.yml
+- include_tasks: dns.yml

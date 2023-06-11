@@ -1,0 +1,39 @@
+---
+# NXOS DNS SETTINGS
+
+- name: Generate Domain Configuration Payload
+  ansible.builtin.set_fact:
+    nxos_domain: "{{ lookup('template', 'domain.j2') }}"
+
+- name: Get Current Domain Name
+  cisco.nxos.nxos_command:
+    commands: show run | include 'ip domain-name'
+  register: current_device_domain_name
+
+- name: Configure Domain Settings
+  cisco.nxos.nxos_config:
+    lines: "{{ nxos_domain | from_yaml }}"
+
+- name: Disable Domain Lookup if disabled via variable
+  cisco.nxos.nxos_config:
+    lines: no ip domain-lookup
+  when: not enable_domain_lookup
+
+- name: Remove Domain Name if domain name variable is empty and a current domain name is configured
+  cisco.nxos.nxos_config:
+    lines: "no {{ current_device_domain_name.stdout[0] }}"
+  when: not device_domain_name and current_device_domain_name.stdout[0]
+
+- name: Generate DNS Server Configuration Payload
+  ansible.builtin.set_fact:
+    nxos_dns: "{{ lookup('template', 'dns_servers.j2') }}"
+
+- name: Get Current DNS Configuration
+  cisco.nxos.nxos_command:
+    commands: show run | include 'ip name-server'
+  register: current_dns_config
+
+- name: Configure DNS Servers
+  cisco.nxos.nxos_config:
+    lines: "{{ nxos_dns | from_yaml }}"
+    before: "no {{ current_dns_config.stdout[0] }}"
