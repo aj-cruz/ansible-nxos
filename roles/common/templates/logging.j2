@@ -1,0 +1,19 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{% if logging_source_interface is defined and logging_source_interface %}
+source_interface: {{ logging_source_interface }}
+{% endif %}
+{% if console_logging_level is defined and console_logging_level %}
+console:
+    severity: {{ console_logging_level }}
+{% endif %}
+{% if syslog_servers is defined and syslog_servers %}
+hosts:
+{% for server in syslog_servers %}
+    - host: {{ server.server }}
+      port: {{ server.port }}
+      {% if server.vrf != "default" %}
+      use_vrf: {{ server.vrf }}
+      {% endif %}
+      severity: {{ server.logging_level }}
+{% endfor %}
+{% endif %}

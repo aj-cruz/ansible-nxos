@@ -19,7 +19,7 @@ vlans:
 ntp_source_interface: mgmt0
 ntp_servers:
   - server: 10.0.0.1
-    prefer: True
+    prefer: yes
   - server: 10.0.0.2
 
 motd_banner: |-
@@ -45,3 +45,24 @@ dns_vrf: default
 name_servers:
   - 10.0.0.1
   - 10.0.0.2
+
+# LOGGING LEVELS ARE AS FOLLOWS (USE EITHER THE NUMBER OR NAME EXACTLY AS SHOWN HERE):
+# 0 emergency
+# 1 alert
+# 2 critical
+# 3 error
+# 4 warning
+# 5 notification
+# 6 informational
+# 7 debugging
+logging_source_interface: mgmt0
+console_logging_level: informational
+syslog_servers:
+  - server: 10.0.0.1
+    port: 5216
+    vrf: default
+    logging_level: error
+  - server: 10.0.0.2
+    port: 5216
+    vrf: management
+    logging_level: informational
