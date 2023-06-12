@@ -1,0 +1,10 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{% if trunk_interfaces is defined and trunk_interfaces %}
+{% for int in trunk_interfaces %}
+- name: {{ int.interface }}
+  mode: layer2
+  description: {{ int.description }}
+  enabled: "{{ int.admin_state | replace('up','yes') | replace('down','no') }}"
+  mtu: "{{ int.mtu | default('') }}"
+{% endfor %}
+{% endif %}

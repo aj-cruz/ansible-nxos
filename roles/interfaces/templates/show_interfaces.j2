@@ -1,0 +1,4 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{% for int in trunk_interfaces %}
+- show run interface {{ int.interface }} | include interface|spanning-tree
+{% endfor %}

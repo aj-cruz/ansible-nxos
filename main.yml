@@ -11,3 +11,4 @@
   roles:
     - role: common # Basic configurations like hostnames, features, ntp, etc
     - role: vlans
+    - role: interfaces

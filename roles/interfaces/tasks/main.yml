@@ -1,0 +1,4 @@
+---
+# TASKS FILE FOR: roles/interfaces
+
+- include_tasks: non_pc_trunks.yml

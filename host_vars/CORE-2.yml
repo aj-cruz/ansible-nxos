@@ -1,0 +1,16 @@
+---
+# VAR FILE FOR HOST: CORE-2
+
+trunk_interfaces:
+  - interface: Ethernet1/5
+    description: VPC Peer Link
+    allowed_vlans: all
+    admin_state: up
+    stp_port_type: network
+    native_vlan: 1
+  - interface: Ethernet1/6
+    description: VPC Peer Link
+    allowed_vlans: all
+    admin_state: up
+    stp_port_type: network
+    native_vlan: 1

@@ -27,6 +27,7 @@ The playbook currently supports the following configurations:
 - logging (the basics)
 - ntp
 - vlan database (name & id)
+- Non-Port Channel Trunk Interfaces (description, admin state, allowed vlans, native vlan)
 
 More to come...
 
@@ -63,3 +64,16 @@ I wanted a single location for my vlan database and I wanted to only have to def
 To that end, my approach is to put the vlan database in the ```all``` group, and use a custom field in my vlan database called ```apply_to_groups```  
 The apply_to_groups field is a list that contains the device groups the VLAN should be configured on.  
 In addition to inventory device groups, you can add an individual hostname should you require it.
+
+# PREPARING TO RUN THE PLAYBOOK
+To get the playbook ready to run in your environment:
+1. Clone this repo to a Linux machine (The Control Node) with the Ansible/Python requirements
+2. Configure management ports on your NXOS devices
+3. Configure SSH credentials (username & password) on your NXOS devices and confirm you can SSH to all devices from the Control Node
+4. Add environment variables to your Control Node to define the NXOS credentials in one of two ways:
+    1. Manually define the credentials for your shell session by doing ```export NXOS_USER={{username}}``` and ```export NXOS_PASS={{password}}``` (supplying the actual username & password for {{username}} & {{password}} respectively)
+    2. Create an environment file (such as environment.env). Place those exports in that file and source the file from your shell session by doing ```source environment.env```  
+    **NOTE:** Option 2 is ok for a lab, but not recommended for production as your credentials are in plain-text in a flat file. For a better credential solution, the playbook can be modified to use a vault solution.
+5. Update ```inventory.yml``` with settings relevant to your environment:
+    - Device Groups
+    - Hosts

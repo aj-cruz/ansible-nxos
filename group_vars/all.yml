@@ -11,10 +11,10 @@ vlans:
     apply_to_groups: [core]
   - name: Servers
     vlan_id: 101
-    apply_to_groups: [core, leaf]
+    apply_to_groups: [core, access]
   - name: vMotion
     vlan_id: 102
-    apply_to_groups: [core, leaf]
+    apply_to_groups: [core, access]
 
 ntp_source_interface: mgmt0
 ntp_servers:

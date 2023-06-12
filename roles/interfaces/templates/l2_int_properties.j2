@@ -1,0 +1,11 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{% if trunk_interfaces is defined and trunk_interfaces %}
+{% for int in trunk_interfaces +%}
+- name: {{ int.interface }}
+  mode: trunk
+  trunk:
+    allowed_vlans:{% if int.allowed_vlans is defined and not int.allowed_vlans == 'all' %} {{ int.allowed_vlans }}{% endif %}
+    
+    native_vlan:{% if int.native_vlan is defined and not int.native_vlan == 1 %} {{ int.native_vlan }}{% endif %}
+{% endfor %}
+{% endif %}

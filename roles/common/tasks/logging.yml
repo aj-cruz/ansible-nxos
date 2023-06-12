@@ -5,10 +5,6 @@
   ansible.builtin.set_fact:
     nxos_ntp: "{{ lookup('template', 'logging.j2') }}"
 
-- name: Print Logging Payload
-  ansible.builtin.debug:
-    msg: "{{ nxos_ntp.split('\n') }}"
-
 - name: Configure Logging
   cisco.nxos.nxos_logging_global:
     config: "{{ nxos_ntp | from_yaml }}"
