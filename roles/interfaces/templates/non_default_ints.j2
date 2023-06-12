@@ -1,0 +1,11 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{# 
+PURPOSE: Generate a list of physical interfaces with non-default configurations
+HOW: Receive as input the full running configurations of all interfaces from Ansible set_fact
+     and filter just physical interfaces (Ethernet) that have a config
+#}
+{% for interface in nxos_current_int_config['stdout'][0]['nf:filter']['m:configure']['m:terminal']['interface'] %}
+{% if 'Ethernet' in interface['__XML__PARAM__interface']['__XML__value'] and not interface['__XML__PARAM__interface'] | length == 1 %}
+- {{ interface['__XML__PARAM__interface']['__XML__value'] }}
+{% endif %}
+{% endfor %}

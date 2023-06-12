@@ -11,7 +11,7 @@ all:
           ansible_host: 192.168.253.101
         CORE-2:
           ansible_host: 192.168.253.102
-    access:
-      hosts:
-        LEAF-1:
-          ansible_host: 192.168.253.103
+    # access:
+    #   hosts:
+    #     LEAF-1:
+    #       ansible_host: 192.168.253.103
