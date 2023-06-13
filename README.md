@@ -17,6 +17,12 @@ If you wish to change this behavior, you will need to dig through the modules an
 
 You can install all the Python packages with: ```pip install -r requirements.txt```
 
+# ANSIBLE.CFG
+I made the following modifications to my ansible.cfg file to support the playbook:
+- host_key_checking=False
+- command_timeout=45  
+(Every now and the one of my tasks that pipe output to json was taking a bit longer than the default 30 seconds)
+
 # SUPPORTED NXOS CONFIGURATIONS
 The playbook currently supports the following configurations:
 - banners (motd & exec)
@@ -27,7 +33,7 @@ The playbook currently supports the following configurations:
 - logging (the basics)
 - ntp
 - vlan database (name & id)
-- Non-Port Channel Trunk Interfaces (description, admin state, allowed vlans, native vlan)
+- Non-Port Channel Trunk & Access Interfaces (description, admin state, allowed vlans, native vlan, access vlan, spanning tree port type)
 
 More to come...
 
