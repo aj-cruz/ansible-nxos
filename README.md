@@ -21,7 +21,7 @@ You can install all the Python packages with: ```pip install -r requirements.txt
 I made the following modifications to my ansible.cfg file to support the playbook:
 - host_key_checking=False
 - command_timeout=45  
-(Every now and the one of my tasks that pipe output to json was taking a bit longer than the default 30 seconds)
+(Every now and then one of my tasks that pipe output to json was taking a bit longer than the default 30 seconds)
 
 # SUPPORTED NXOS CONFIGURATIONS
 The playbook currently supports the following configurations:
