@@ -1,0 +1,26 @@
+---
+# CONFIGURE INTERFACE SPANNING TREE
+
+- name: Generate Current Spanning Tree Interface Configurations For Inventory Interfaces
+  cisco.nxos.nxos_command:
+    commands: "{{ lookup('template', 'show_int_stp.j2') | from_yaml }}"
+  register: nxos_current_stp_config
+
+- name: Create Spanning Tree Interface Status Dictionary
+  ansible.builtin.set_fact:
+    nxos_if_dict: "{% if item | length > 2 %}{{ nxos_if_dict|default({}) | combine({item[1].replace('interface ', ''): item[2] | trim }) }}{% else %}{{ nxos_if_dict|default({}) | combine({item[1].replace('interface ', ''): '' }) }}{% endif %}"
+  loop: "{{ nxos_current_stp_config.stdout_lines }}"
+
+- name: Configure Interface Spanning Tree
+  cisco.nxos.nxos_config:
+    parents: "interface {{ item.interface }}"
+    lines: "{% if item.stp_port_type %}spanning-tree port type {{ item.stp_port_type }}{% endif %}"
+  loop: "{{ trunk_interfaces + access_interfaces }}"
+  when: item.stp_port_type is defined and item.stp_port_type
+
+- name: Remove Spanning Tree Interface Configuration As Needed
+  cisco.nxos.nxos_config:
+    parents: "interface {{ item.interface }}"
+    lines: "no spanning-tree port type"
+  loop: "{{ trunk_interfaces + access_interfaces }}"
+  when: not item.stp_port_type and not nxos_if_dict[item.interface] == ''

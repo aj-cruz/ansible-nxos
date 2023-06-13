@@ -1,0 +1,11 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{# 
+PURPOSE: Generate a list of physical interfaces configured as vpc orphan ports
+HOW: Receive as input the running configurations of all interfaces from Ansible set_fact filtered for orphan ports
+     filter just physical interfaces (Ethernet) that have a orphan port config
+#}
+{% for interface in nxos_int_orphan_ports['stdout_lines'] %}
+{% if interface | length > 2 and 'orphan-port' in interface[2] %}
+- {{ interface[1].replace('interface ', '') }}
+{% endif %}
+{% endfor %}

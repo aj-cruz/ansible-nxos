@@ -1,0 +1,18 @@
+---
+######################################################################
+# CONFIGURE PHYSICAL INTERFACE ATTRIBUTES FOR ALL PHYSICAL INTERFACES
+# This includes configurations such as :
+#   - description
+#   - admin status (up/down)
+#   - mtu
+#   - mode (switchport or routed)
+######################################################################
+
+- name: Generate Physical Interface Properties Payload
+  ansible.builtin.set_fact:
+    nxos_phys_int_properties: "{{ lookup('template', 'phys_int_properties.j2') }}"
+
+- name: Configure Physical Interface Properties
+  cisco.nxos.nxos_interfaces:
+    config: "{{ nxos_phys_int_properties | from_yaml }}"
+    state: overridden

@@ -1,6 +1,20 @@
 ---
 # VAR FILE FOR HOST: CORE-2
 
+access_interfaces:
+  - interface: Ethernet1/1
+    description: To Firewall-1 (inside)
+    admin_state: up
+    stp_port_type: edge
+    access_vlan: 99
+    vpc_orphan_port_suspend: yes
+  - interface: Ethernet1/2
+    description: To Firewall-1 (DMZ)
+    admin_state: up
+    stp_port_type: edge
+    access_vlan: 88
+    vpc_orphan_port_suspend: yes
+
 trunk_interfaces:
   - interface: Ethernet1/5
     description: VPC Peer Link

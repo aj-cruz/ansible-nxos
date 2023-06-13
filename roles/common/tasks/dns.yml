@@ -36,4 +36,4 @@
 - name: Configure DNS Servers
   cisco.nxos.nxos_config:
     lines: "{{ nxos_dns | from_yaml }}"
-    before: "no {{ current_dns_config.stdout[0] }}"
+    before: "{% if current_dns_config.stdout[0] %}no {{ current_dns_config.stdout[0] }}{% else %}{% endif %}"

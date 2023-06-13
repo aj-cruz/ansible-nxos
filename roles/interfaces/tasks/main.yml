@@ -1,4 +1,7 @@
 ---
 # TASKS FILE FOR: roles/interfaces
 
-- include_tasks: non_pc_trunks.yml
+- include_tasks: default_removed_ints.yml   # Compares live device interfaces to playbook interfaces and defaults any interfaces that have been removed from the playbook
+- include_tasks: phys_int_properties.yml    # Configures physical interface properties (description, admin status, mtu, mode)
+- include_tasks: non_pc_l2_ints.yml         # Configures L2 interface properties (trunk or access, vlans, native vlans, etc.)
+- include_tasks: spanning_tree.yml          # Configures interface Spanning Tree port type

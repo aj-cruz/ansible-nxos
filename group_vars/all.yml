@@ -6,6 +6,9 @@ vlans:
   - name: default # VLAN 1 must be defined or Ansible will keep trying to delete it (and never succeed)
     vlan_id: 1
     apply_to_groups: [all]
+  - name: DMZ
+    vlan_id: 88
+    apply_to_groups: [core]
   - name: FW-Transit
     vlan_id: 99
     apply_to_groups: [core]

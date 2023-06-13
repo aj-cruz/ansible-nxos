@@ -1,0 +1,46 @@
+---
+# CONFIGURE NON-PORT CHANNEL LAYER 2 INTERFACES (TRUNKS & ACCESS PORTS)
+
+# CONFIGURE TRUNK INTERFACE PROPERTIES
+- name: NON-PC TRUNKS- Generate L2 Interface Properties Payload
+  ansible.builtin.set_fact:
+    nxos_l2_int_properties: "{{ lookup('template', 'trunk_int_properties.j2') }}"
+
+- name: NON-PC TRUNKS- Configure L2 Interface Properties
+  cisco.nxos.nxos_l2_interfaces:
+    config: "{{ nxos_l2_int_properties | from_yaml }}"
+    state: replaced
+
+# CONFIGURE ACCESS INTERFACE PROPERTIES
+- name: NON-PC ACCESS PORTS- Generate L2 Interface Properties Payload
+  ansible.builtin.set_fact:
+    nxos_l2_int_properties: "{{ lookup('template', 'access_int_properties.j2') }}"
+
+- name: NON-PC ACCESS PORTS- Configure L2 Interface Properties
+  cisco.nxos.nxos_l2_interfaces:
+    config: "{{ nxos_l2_int_properties | from_yaml }}"
+    state: replaced
+
+# CONFIGURE VPC ORPHAN-PORT SUSPEND
+- name: Configure VPC Orphan Ports
+  cisco.nxos.nxos_config:
+    parents: "interface {{ item.interface }}"
+    lines: vpc orphan-port suspend
+  loop: "{{ trunk_interfaces + access_interfaces }}"
+  when: item.vpc_orphan_port_suspend is defined and item.vpc_orphan_port_suspend
+
+- name: Get Current VPC Orphan-port Suspend Status Of All Interfaces
+  cisco.nxos.nxos_command:
+    commands: "{{ lookup('template', 'show_int_orphan_port.j2') | from_yaml }}"
+  register: nxos_int_orphan_ports
+
+- name: Create Dictionary of Currently-Configured VPC Orphan Ports
+  ansible.builtin.set_fact:
+    nxos_current_orphan_ports: "{{ lookup('template', 'before_vpc_orphan_ports.j2') | from_yaml }}"
+
+- name: Unconfigure VPC Orphan Ports
+  cisco.nxos.nxos_config:
+    parents: "interface {{ item.interface }}"
+    lines: no vpc orphan-port suspend
+  loop: "{{ trunk_interfaces + access_interfaces }}"
+  when: item.vpc_orphan_port_suspend is defined and not item.vpc_orphan_port_suspend and item.interface in nxos_current_orphan_ports

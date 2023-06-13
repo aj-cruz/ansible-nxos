@@ -1,0 +1,8 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{% if access_interfaces is defined and access_interfaces %}
+{% for int in access_interfaces +%}
+- name: {{ int.interface }}
+  access:
+    vlan: {% if int.access_vlan is defined and not int.access_vlan == 1 %} {{ int.access_vlan }}{% endif %}
+{% endfor %}
+{% endif %}

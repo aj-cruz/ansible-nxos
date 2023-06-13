@@ -1,0 +1,19 @@
+---
+# DEFAULT INTERFACES REMOVED FROM THE PLAYBOOK
+
+- name: Build list of current interface configurations (all interfaces)
+  cisco.nxos.nxos_command:
+    commands: 
+      - command: show run interface
+        output: json
+  register: nxos_current_int_config
+
+- name: Render list of physical interfaces with non-default configuration
+  ansible.builtin.set_fact:
+    nxos_non_default_phys_ints: "{{ lookup('template', 'non_default_ints.j2') | from_yaml }}"
+
+- name: Default The Physical Interfaces Removed From the Playbook
+  cisco.nxos.nxos_config:
+    lines: "default interface {{ item }}"
+  loop: "{{ nxos_non_default_phys_ints | list }}"
+  when: not nxos_non_default_phys_ints == "" and not (trunk_interfaces + access_interfaces) | selectattr('interface', 'match', item)
