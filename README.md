@@ -1,4 +1,7 @@
 # ANSIBLE-NXOS
+**ATTENTION:** I have decided to move this to GitLab to help with my Cisco Certified DevNet Expert preparation.
+It will no longer be updated here, but will be updated at: [https://gitlab.com/ajcruzcc/ansible-nxos](https://gitlab.com/ajcruzcc/ansible-nxos)  
+
 An Ansible playbook to deploy Cisco NXOS configurations to Nexus Switches.  
 ******************************************************************
 **WARNING:** This playbook is designed to operate 100% declaratively.  
